@@ -1,0 +1,35 @@
+This application is a simple web-based PDF merger that allows users to upload multiple PDF files and merge them into a single document. The application is built using Node.js and employs the Express.js framework for handling HTTP requests and responses. The merging functionality is powered by the pdf-merger-js library, which simplifies the process of combining PDF files.
+
+Key Components
+PDFMerger:
+
+The PDFMerger class from the pdf-merger-js library is used to handle the merging of PDF files. This library provides a straightforward API to add individual PDF files to a merger instance and save the final output as a new PDF.
+The merging function mergerpdfs accepts an array of PDF file paths and a unique identifier (timestamp) for naming the merged PDF file. This allows for dynamically generated file names to avoid overwriting existing files.
+Express.js:
+
+Express.js serves as the backbone of the application, managing routing and serving static files. The server listens on port 3000 and responds to HTTP GET requests at the root endpoint ("/") by sending an HTML form for user interaction.
+The application also processes POST requests to the "/merge" endpoint, which handles file uploads and initiates the merging process.
+Multer:
+
+Multer is used for handling file uploads. It stores the uploaded files in the uploads/ directory. The middleware processes incoming multipart/form-data, which is the type used for file uploads in forms.
+In this application, Multer is configured to accept multiple PDF files, with the uploaded files being accessible via req.files.
+HTML Form:
+
+An HTML form (served at the root URL) allows users to input the number of PDF files they wish to upload for merging and select the files from their local filesystem.
+The form includes an input for the number of PDFs (numOfPdfs) and a file input for selecting the PDF files. Upon submission, the form data is sent to the server for processing.
+Error Handling:
+
+The application includes basic error handling that checks if the number of uploaded files matches the user-defined input. If there’s a mismatch, it responds with a 400 status code and an appropriate message.
+Dynamic File Naming:
+
+The merged PDF is saved with a unique name generated using the current timestamp (ud = new Date().getTime()). This ensures that each merged file is uniquely identified and prevents overwriting previous files.
+How It Works
+When the user accesses the root URL, they are presented with an HTML form where they can specify the number of PDF files to merge and select the files for upload.
+Upon submitting the form, the server processes the uploaded files and checks if the number of files matches the specified input.
+If valid, the server calls the mergerpdfs function, passing the paths of the uploaded PDF files and a unique identifier for naming the output file.
+After the merging process completes, the user is redirected to the newly created merged PDF file for download.
+Technologies Used
+Node.js: A JavaScript runtime built on Chrome's V8 engine, used for building server-side applications.
+Express.js: A minimal and flexible Node.js web application framework that provides robust features for web and mobile applications.
+pdf-merger-js: A lightweight library for merging PDF documents in a simple and efficient way.
+Multer: Middleware for handling multipart/form-data, primarily used for uploading files in Node.js applications.
